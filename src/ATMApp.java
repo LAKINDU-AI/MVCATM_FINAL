@@ -1,6 +1,5 @@
 import java.util.Scanner;
 
-
 public class ATMApp {
 
     public static void main(String[] args) {
@@ -21,8 +20,8 @@ public class ATMApp {
             String cardNumber = view.getCardNumber();
             int pin = view.getPin();
 
-            Customer customer =  controller.login(cardNumber, pin);
-            if (customer == null) {
+            boolean loginSuccess = controller.login(cardNumber, pin);
+            if (!loginSuccess) {
                 view.showMessage("Incorrect Card Number or PIN. Exiting...");
                 return;
             }
@@ -33,7 +32,8 @@ public class ATMApp {
                     case 1 -> view.showBalance(controller.getBalance());
                     case 2 -> controller.deposit(view.getAmount("deposit"));
                     case 3 -> controller.withdraw(view.getAmount("withdraw"));
-                    case 4 -> {
+                    case 4 -> controller.viewTransactions();
+                    case 5 -> {
                         view.showMessage("Thank you for using the ATM.");
                         return;
                     }
@@ -66,7 +66,9 @@ public class ATMApp {
             System.out.println("1. Check Ink & Paper Status");
             System.out.println("2. Refill Ink");
             System.out.println("3. Refill Paper");
-            System.out.println("4. Exit");
+            System.out.println("4. Check ATM Balance");
+            System.out.println("5. Refill ATM Balance");
+            System.out.println("6. Exit");
             System.out.print("Choose an option: ");
 
             int choice = scanner.nextInt();
@@ -74,7 +76,9 @@ public class ATMApp {
                 case 1 -> ATMStatusDAO.checkInkPaperStatus();
                 case 2 -> refillInk();
                 case 3 -> refillPaper();
-                case 4 -> {
+                case 4 -> checkAtmBalance();
+                case 5 -> refillAtmBalance();
+                case 6 -> {
                     System.out.println("Exiting Technician Mode...");
                     return;
                 }
@@ -91,5 +95,17 @@ public class ATMApp {
     public static void refillPaper() {
         ATMStatusDAO.refillPaper();
         System.out.println("Paper refilled successfully.");
+    }
+
+    // Method to check the current ATM balance
+    public static void checkAtmBalance() {
+        double atmBalance = ATMStatusDAO.getAtmBalance();
+        System.out.println("Current ATM Balance: $" + atmBalance);
+    }
+
+    // Method to refill the ATM balance to 6000
+    public static void refillAtmBalance() {
+        ATMStatusDAO.refillAtmBalance();
+        System.out.println("ATM balance has been refilled to $6000.");
     }
 }

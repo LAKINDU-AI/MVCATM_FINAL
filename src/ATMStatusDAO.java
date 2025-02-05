@@ -72,4 +72,54 @@ public class ATMStatusDAO {
             return false;
         }
     }
+
+    // Method to refill ATM balance to 6000 (for technician)
+    public static void refillAtmBalance() {
+        String query = "UPDATE atm_status SET atm_balance = 6000 WHERE id = 1";
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            assert conn != null;
+            try (PreparedStatement stmt = conn.prepareStatement(query)) {
+                stmt.executeUpdate();
+                System.out.println("ATM balance has been refilled to $6000.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Error refilling ATM balance: " + e.getMessage());
+        }
+    }
+
+    // Get current ATM balance (useful for the technician)
+    public static double getAtmBalance() {
+        String query = "SELECT atm_balance FROM atm_status WHERE id = 1";
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            assert conn != null;
+            try (PreparedStatement stmt = conn.prepareStatement(query);
+                 ResultSet rs = stmt.executeQuery()) {
+
+                if (rs.next()) {
+                    return rs.getDouble("atm_balance");
+                } else {
+                    System.out.println("ATM balance data not found.");
+                    return 0.0;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error retrieving ATM balance: " + e.getMessage());
+            return 0.0;
+        }
+    }
+    //getatmbalance
+    public static void updateAtmBalance(double newBalance) {
+        String sql = "UPDATE atm_status SET atm_balance = ? WHERE id = 1";  // Assuming there's only 1 record in atm_status table
+
+        try (Connection connection = DatabaseConnection.getConnection()) {
+            assert connection != null;
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setDouble(1, newBalance);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
