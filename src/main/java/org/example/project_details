@@ -1,0 +1,2 @@
+“The system uses a single users table with role-based logic to differentiate customers and technicians.
+ATM state is persisted in a resources table, and all financial operations are logged in a transactions table. JDBC wis used directly to demonstrate database fundamentals.”
