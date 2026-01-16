@@ -52,4 +52,22 @@ public class ResourcesDAO {
         }
         return false;
     }
+    //new feature for update cash
+    public void updateCash(int amount) {
+        String sql = "UPDATE resources SET cash = cash + ? WHERE id = 1";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, amount);
+            stmt.executeUpdate();
+
+            System.out.println("Cash successfully updated.");
+
+        } catch (SQLException e) {
+            System.out.println("Failed to update cash.");
+            e.printStackTrace();
+        }
+    }
+
 }

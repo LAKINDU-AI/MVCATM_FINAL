@@ -105,35 +105,70 @@ public class ConsoleView {
         while (true) {
             System.out.println("\nTechnician Menu:");
             System.out.println("1. View Resources");
-            System.out.println("2. Refill Resources");
-            System.out.println("3. Add New User");
-            System.out.println("4. View all Users");
+            //new feature to add cash
+            System.out.println("2. Renew Ink & Paper");
+            System.out.println("3. Update Cash");
+            //System.out.println("2. Refill Resources");
+            System.out.println("4. Add New User");
+            System.out.println("5. View all Users");
             System.out.println("0. Logout");
             System.out.print("Select an option: ");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
-
+// new feature add cash
             switch (choice) {
                 case 1:
                     viewResources();
                     break;
+
                 case 2:
-                    refillResources();
+                    refillResources();   // ink + paper only
                     break;
+
                 case 3:
+                    System.out.print("Enter amount of cash to add: ");
+                    int amount = scanner.nextInt();
+                    scanner.nextLine(); // consume newline
+                    resourcesController.updateCash(amount);
+                    break;
+
+                case 4:
                     addNewUser();
                     break;
-                case 4:
+
+                case 5:
                     viewAllUsers();
                     break;
+
                 case 0:
-                    System.out.println("Logging out...");
-                    loggedInUser = null;
                     return;
+
                 default:
-                    System.out.println("Invalid choice, try again.");
+                    System.out.println("Invalid option.");
             }
+
+
+//            switch (choice) {
+//                case 1:
+//                    viewResources();
+//                    break;
+//                case 2:
+//                    refillResources();
+//                    break;
+//                case 3:
+//                    addNewUser();
+//                    break;
+//                case 4:
+//                    viewAllUsers();
+//                    break;
+//                case 0:
+//                    System.out.println("Logging out...");
+//                    loggedInUser = null;
+//                    return;
+//                default:
+//                    System.out.println("Invalid choice, try again.");
+//            }
         }
     }
 

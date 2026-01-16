@@ -44,4 +44,13 @@ public class ResourcesController {
 
         resourcesDAO.updateResources(currentResources);
     }
+    //new feature to add cash
+    public void updateCash(int amount) {
+        if (amount <= 0) {
+            System.out.println("Invalid cash amount.");
+            return;
+        }
+        resourcesDAO.updateCash(amount);
+    }
+
 }
